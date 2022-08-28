@@ -14,7 +14,6 @@ export async function getCurrentCase() {
     const tables = Tabletojson.convert(html, { forceIndexAsNumber: true });
     const [, rawTime, frame, day, month, year] = html.match(DateRegex) as string[];
     const time = parseInt(rawTime, 10) + (frame === 'pm' ? 12 : 0);
-    console.log(`${time}:00 ${day} ${month} ${year}`);
     const updatedTimestamp = new Date(`${time}:00 ${day} ${month} ${year} (NZT)`).getTime();
 
     const summary = makeSummary(tables[0].map(Object.values).flat());
