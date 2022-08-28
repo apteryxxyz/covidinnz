@@ -1,0 +1,11 @@
+# npm
+node_modules
+.yarn
+!.yarn/releases
+!.yarn/plugins
+
+# build
+.next
+
+# secrets
+.env

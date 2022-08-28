@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* https: //stackoverflow.com/a/70259786 */
+
+.masonry-container {
+    -moz-column-count: 1;
+    column-count: 1;
+    -moz-column-gap: 20px;
+    column-gap: 20px;
+    -moz-column-fill: balance;
+    column-fill: balance;
+    /* margin: 20px auto 0; */
+    /* padding: 2rem; */
+}
+
+.masonry-container .masonry-item {
+    display: inline-block;
+    margin: 0 0 20px;
+    page-break-inside: avoid;
+    -moz-column-break-inside: avoid;
+    break-inside: avoid;
+    width: 100%;
+}
+
+@media (min-width: 1280px) {
+    .masonry-container {
+        -moz-column-count: 2;
+        column-count: 2;
+    }
+}

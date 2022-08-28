@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  site:
+    container_name: covidinnz
+    build:
+      context: .
+      dockerfile: .docker/app/Dockerfile
+    ports:
+      - '${PORT}:${PORT}'
+    env_file:
+      - .env
+    restart: always
