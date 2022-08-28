@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: Executing SSH commands
         uses: appleboy/ssh-action@master
-         env:
+        env:
           PROJECT_PATH: ${{ secrets.PROJECT_PATH }}
         with:
           host: ${{ secrets.IP }}
