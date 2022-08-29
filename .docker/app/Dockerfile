@@ -1,27 +1,30 @@
-# The build runner
-FROM node:18-alpine AS build
+# The dependencies runner
+FROM node:18-alpine AS installer
 WORKDIR /app
 
 # Install dependencies
-COPY . .
-RUN yarn --immutable
+COPY package.json ./
+RUN npm install
 
-# Build the app
-RUN yarn build
-
-# The prod runner
-FROM node:18-alpine AS prod
+# The builder runner
+FROM node:18-alpine AS builder
 WORKDIR /app
 
-ARG NODE_ENV=production
-ENV NODE_ENV $NODE_ENV
+# Build the app
+COPY . .
+COPY --from=installer /app/node_modules ./node_modules
+RUN npx next build
 
-# Copy all required files to the /app directory
-COPY --from=build /app/public ./public
-COPY --from=build /app/.next/standalone ./
-COPY --from=build /app/.next/static ./.next/static
+# The production runner
+FROM node:18-alpine AS production
+WORKDIR /app
+
+# Copy project files
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
 
 EXPOSE $PORT
 
-# Start the app
+# Start the server
 CMD ["node", "server.js"]
