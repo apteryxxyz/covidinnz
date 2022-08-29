@@ -1,18 +1,13 @@
-# The dependencies runner
-FROM node:18-alpine AS installer
+# The builder runner
+FROM node:18-alpine AS builder
 WORKDIR /app
 
 # Install dependencies
 COPY package.json ./
 RUN npm install
 
-# The builder runner
-FROM node:18-alpine AS builder
-WORKDIR /app
-
 # Build the app
 COPY . .
-COPY --from=installer /app/node_modules ./node_modules
 RUN npx next build
 
 # The production runner
