@@ -2,7 +2,7 @@ import type { PageProps } from "@typings/PageProps";
 import { addCommas, toNZT } from "./formatValue";
 
 export function formatSummary(current: PageProps['currentCases']) {
-    const at = toNZT(new Date(current.updatedTimestamp));
+    const at = toNZT(new Date(current.updatedAt));
     let text = `As of ${at}, the Ministry of Health New Zealand reported in the last 24 hours;`;
 
     const activeChange = current.summary.newCases;

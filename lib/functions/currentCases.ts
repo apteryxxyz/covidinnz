@@ -2,26 +2,44 @@
  * @file Handles scrapping of the MoH "Current cases" page
  */
 
+import { getJson, saveJson } from '@utilities/cacheHelpers';
+import { resolve } from 'node:path';
 import { Tabletojson } from 'tabletojson';
 
 const SourceUrl =
     'https://www.health.govt.nz/covid-19-novel-coronavirus/' +
     'covid-19-data-and-statistics/covid-19-current-cases';
 const DateRegex = /Last updated (\d)(am|pm) (\d{1,2}) ([a-z]{3,9}) (\d{4})/i;
+const CachePath = resolve('public/cache/currentCases.json');
+
+export interface CurrentCases {
+    updatedAt: number;
+    checkedAt: number;
+    summary: ReturnType<typeof makeSummary>;
+    outcomes: ReturnType<typeof makeOutcomes>;
+    deaths: ReturnType<typeof makeDeaths>;
+    locations: ReturnType<typeof makeLocations>;
+}
 
 export async function getCurrentCase() {
+    const parsedJson = await getJson<CurrentCases>(CachePath);
+    const checked = new Date(parsedJson.checkedAt || 0);
+    if (checked.getTime() > Date.now() - 600000) return parsedJson;
+
     const html = await fetch(SourceUrl).then((r) => r.text());
     const tables = Tabletojson.convert(html, { forceIndexAsNumber: true });
     const [, rawTime, frame, day, month, year] = html.match(DateRegex) as string[];
     const time = parseInt(rawTime, 10) + (frame === 'pm' ? 12 : 0);
-    const updatedTimestamp = new Date(`${time}:00 ${day} ${month} ${year} (NZT)`).getTime();
+    const updatedAt = new Date(`${time}:00 ${day} ${month} ${year} (NZT)`).getTime();
+    const checkedAt = new Date().getTime();
 
     const summary = makeSummary(tables[0].map(Object.values).flat());
     const outcomes = makeOutcomes(tables[1].map(Object.values));
     const deaths = makeDeaths(tables[2].map(Object.values));
     const locations = makeLocations(tables[5].map(Object.values));
 
-    return { updatedTimestamp, summary, outcomes, deaths, locations };
+    const json = { updatedAt, checkedAt, summary, outcomes, deaths, locations };
+    return saveJson<CurrentCases>(CachePath, json);
 }
 
 const clean = (s: string) => Number(s?.replace(/\*|,|%/g, '')) ?? null;

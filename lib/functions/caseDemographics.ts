@@ -2,19 +2,42 @@
  * @file Handles scrapping of the MoH "Case demographics" page
  */
 
+import { getJson, saveJson } from '@utilities/cacheHelpers';
+import { resolve } from 'node:path';
 import { Tabletojson } from 'tabletojson';
 
 const SourceUrl =
     'https://www.health.govt.nz/covid-19-novel-coronavirus' +
     '/covid-19-data-and-statistics/covid-19-case-demographics';
 const DateRegex = /Last updated (\d)(am|pm) (\d{1,2}) ([a-z]{3,9}) (\d{4})/i;
+const CachePath = resolve('public/cache/caseDemographics.json');
+
+export interface CaseDemographics {
+    updatedAt: number;
+    checkedAt: number;
+    cases: {
+        byEthnicity: ReturnType<typeof makeCasesByEthnicity>;
+        byAgeGroup: ReturnType<typeof makeCasesByAgeGroup>;
+        byGender: ReturnType<typeof makeCasesByGender>;
+    };
+    hospital: {
+        byGender: ReturnType<typeof makeHospitalByGender>;
+        byAgeGroup: ReturnType<typeof makeHospitalByAgeGroup>;
+        byEthnicity: ReturnType<typeof makeHospitalByEthnicity>;
+    };
+}
 
 export async function getCaseDemographics() {
+    const parsedJson = await getJson<CaseDemographics>(CachePath);
+    const checked = new Date(parsedJson.checkedAt || 0);
+    if (checked.getTime() > Date.now() - 600000) return parsedJson;
+
     const html = await fetch(SourceUrl).then((r) => r.text());
     const tables = Tabletojson.convert(html, { forceIndexAsNumber: true });
     const [, rawTime, frame, day, month, year] = html.match(DateRegex) as string[];
     const time = parseInt(rawTime, 10) + (frame === 'pm' ? 12 : 0);
-    const updatedTimestamp = new Date(`${time}:00 ${day} ${month} ${year} (NZT)`).getTime();
+    const updatedAt = new Date(`${time}:00 ${day} ${month} ${year} (NZT)`).getTime();
+    const checkedAt = new Date().getTime();
 
     const cases = {
         byEthnicity: makeCasesByEthnicity(tables[5].map(Object.values)),
@@ -28,7 +51,8 @@ export async function getCaseDemographics() {
         byEthnicity: makeHospitalByEthnicity(tables[2].map(Object.values)),
     };
 
-    return { updatedTimestamp, cases, hospital };
+    const json = { updatedAt, checkedAt, cases, hospital };
+    return saveJson<CaseDemographics>(CachePath, json);
 }
 
 const clean = (s: string) => Number(s?.replace(/\*|,|%/g, '')) ?? null;

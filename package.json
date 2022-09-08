@@ -4,7 +4,7 @@
     "version": "3.0.0",
     "scripts": {
         "build": "next build",
-        "dev": "cross-env NODE_ENV=development next dev",
+        "dev": "next dev",
         "lint": "eslint {src,lib} --fix",
         "pull": "git reset --hard HEAD && git pull",
         "start": "next start"
@@ -28,6 +28,7 @@
     },
     "devDependencies": {
         "@types/eslint": "^8",
+        "@types/node": "^18.7.16",
         "@types/react": "^18",
         "@types/react-dom": "^18",
         "@types/rimraf": "^3",

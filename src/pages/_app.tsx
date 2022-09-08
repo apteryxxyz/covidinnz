@@ -20,9 +20,6 @@ const meta = {
 export default function _App({ Component, pageProps }: AppProps) {
     return <StrictMode>
         <Head>
-            {/* This causes a "next-head-count" warning, but this is the
-            easiest way I found to implement server side dark mode */}
-            {/* <html className={pageProps.theme} /> */}
             <link rel="shortcut icon" href="/images/logo_yellow.png" />
 
             <title>{meta.title}</title>
