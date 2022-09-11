@@ -22,4 +22,5 @@ COPY --from=builder /app/.next/static ./.next/static
 EXPOSE $PORT
 
 # Start the server
+ENV TZ "Pacific/Auckland"
 CMD ["node", "server.js"]
