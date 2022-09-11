@@ -8,6 +8,7 @@ import { NavigationBar } from '@components/NavigationBar';
 import { Footer } from '@components/Footer';
 
 import '../styles/globals.css';
+import type { PageProps } from '@typings/PageProps';
 
 const meta = {
     title: 'COVID in New Zealand',
@@ -17,7 +18,7 @@ const meta = {
     image: '/images/banner_yellow.png',
 };
 
-export default function _App({ Component, pageProps }: AppProps) {
+export default function _App({ Component, pageProps }: AppProps<PageProps>) {
     return <StrictMode>
         <Head>
             <link rel="shortcut icon" href="/images/logo_yellow.png" />
