@@ -21,6 +21,10 @@ export default function Home(props: PropsWithChildren<PageProps>) {
 
     return <SectionGrid>
         <SectionItem title="Summary">
+            <p>Reporting of daily case numbers and other COVID-19 related data has now moved to weekly updating.
+                The first weekly update, which will cover the week from Monday 12 Sept to Sunday 18 Sept will be
+                published on Monday 19 September, and weekly thereafter.</p>
+
             {summary}
         </SectionItem>
 
