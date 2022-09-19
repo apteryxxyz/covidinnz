@@ -2,10 +2,10 @@ import type { GetServerSideProps } from 'next';
 import type { PropsWithChildren } from 'react';
 import type { PageProps } from '@typings/PageProps';
 
-import { getCurrentCase } from '@functions/currentCases';
-import { getVaccineData } from '@functions/vaccineData';
-import { getCaseDemographics } from '@functions/caseDemographics';
-import { getLatestNewsItems } from '@functions/latestNewsItems';
+// import { getCurrentCase } from '@functions/currentCases';
+// import { getVaccineData } from '@functions/vaccineData';
+// import { getCaseDemographics } from '@functions/caseDemographics';
+// import { getLatestNewsItems } from '@functions/latestNewsItems';
 import { getCookie } from '@utilities/cookieParse';
 import { addCommas, stringifyProperties } from '@utilities/formatValue';
 
@@ -21,10 +21,6 @@ export default function Home(props: PropsWithChildren<PageProps>) {
 
     return <SectionGrid>
         <SectionItem title="Summary">
-            <p>Reporting of daily case numbers and other COVID-19 related data has now moved to weekly updating.
-                The first weekly update, which will cover the week from Monday 12 Sept to Sunday 18 Sept will be
-                published on Monday 19 September, and weekly thereafter.</p>
-
             {summary}
         </SectionItem>
 
@@ -88,9 +84,10 @@ export default function Home(props: PropsWithChildren<PageProps>) {
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     const theme = req.headers.cookie ? getCookie(req.headers.cookie, 'theme') || 'light' : 'light';
-    const currentCases = await getCurrentCase();
-    const caseDemographics = await getCaseDemographics();
-    const vaccineData = await getVaccineData();
-    const latestNewsItems = await getLatestNewsItems();
-    return { props: { theme, currentCases, caseDemographics, vaccineData, latestNewsItems } };
+    return { props: { theme } };
+    // const currentCases = await getCurrentCase();
+    // const caseDemographics = await getCaseDemographics();
+    // const vaccineData = await getVaccineData();
+    // const latestNewsItems = await getLatestNewsItems();
+    // return { props: { theme, currentCases, caseDemographics, vaccineData, latestNewsItems } };
 };

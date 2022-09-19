@@ -2,10 +2,10 @@ import type { GetServerSideProps } from 'next';
 import type { PropsWithChildren } from 'react';
 import type { PageProps } from '@typings/PageProps';
 
-import { getCurrentCase } from '@functions/currentCases';
-import { getVaccineData } from '@functions/vaccineData';
-import { getCaseDemographics } from '@functions/caseDemographics';
-import { getLatestNewsItems } from '@functions/latestNewsItems';
+// import { getCurrentCase } from '@functions/currentCases';
+// import { getVaccineData } from '@functions/vaccineData';
+// import { getCaseDemographics } from '@functions/caseDemographics';
+// import { getLatestNewsItems } from '@functions/latestNewsItems';
 import { getCookie } from '@utilities/cookieParse';
 import { addCommas, stringifyProperties } from '@utilities/formatValue';
 
@@ -132,9 +132,10 @@ export default function Cases(props: PropsWithChildren<PageProps>) {
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     const theme = req.headers.cookie ? getCookie(req.headers.cookie, 'theme') || 'light' : 'light';
-    const currentCases = await getCurrentCase();
-    const caseDemographics = await getCaseDemographics();
-    const vaccineData = await getVaccineData();
-    const latestNewsItems = await getLatestNewsItems();
-    return { props: { theme, currentCases, caseDemographics, vaccineData, latestNewsItems } };
+    return { props: { theme } };
+    // const currentCases = await getCurrentCase();
+    // const caseDemographics = await getCaseDemographics();
+    // const vaccineData = await getVaccineData();
+    // const latestNewsItems = await getLatestNewsItems();
+    // return { props: { theme, currentCases, caseDemographics, vaccineData, latestNewsItems } };
 };

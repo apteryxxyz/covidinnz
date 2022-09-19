@@ -18,7 +18,7 @@ const meta = {
     image: '/images/banner_yellow.png',
 };
 
-export default function _App({ Component, pageProps }: AppProps<PageProps>) {
+export default function _App({ /*Component,*/ pageProps }: AppProps<PageProps>) {
     return <StrictMode>
         <Head>
             <link rel="shortcut icon" href="/images/logo_yellow.png" />
@@ -51,7 +51,9 @@ export default function _App({ Component, pageProps }: AppProps<PageProps>) {
             parentClassName="bg-white dark:bg-slate-900 dark:text-white"
             childClassName="container mx-auto p-5 flex flex-col"
         >
-            <Component {...pageProps} />
+            <p>The Ministry of Health New Zealand has made some changes which
+                has caused this website to break, fixes are underway.</p>
+            {/* <Component {...pageProps} /> */}
         </Container>
 
         <Footer />
