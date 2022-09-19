@@ -3,10 +3,10 @@ import { addCommas, toNZT } from "./formatValue";
 
 export function formatSummary(current: PageProps['currentCases']) {
     const at = toNZT(new Date(current.updatedAt));
-    let text = `As of ${at}, the Ministry of Health New Zealand reported in the last 24 hours;`;
+    let text = `As of ${at}, the Ministry of Health New Zealand reported in the last week;`;
 
-    const activeChange = current.summary.newCases;
-    const activeTotal = current.summary.activeCases;
+    const activeChange = current.details.totalChange;
+    const activeTotal = current.details.total;
     const { recoveredChange, recoveredTotal } = current.outcomes;
     const { deceasedChange, deceasedTotal } = current.outcomes;
 
@@ -55,7 +55,7 @@ export function formatVaccinations(vaccine: PageProps["vaccineData"]) {
     }
 }
 
-export function formatHospital(hospital: PageProps["caseDemographics"]["hospital"], news: PageProps["latestNewsItems"]) {
+export function formatHospital(hospital: PageProps["caseDemographics"]["hospital"], news: PageProps["currentCases"]["summary"]) {
     const totals = hospital.byEthnicity.find(e => e.label === 'Total');
     if (!totals) throw 'This should never be reached, just here for typings';
     return {

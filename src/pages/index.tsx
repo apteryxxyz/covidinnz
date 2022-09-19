@@ -2,10 +2,10 @@ import type { GetServerSideProps } from 'next';
 import type { PropsWithChildren } from 'react';
 import type { PageProps } from '@typings/PageProps';
 
-// import { getCurrentCase } from '@functions/currentCases';
-// import { getVaccineData } from '@functions/vaccineData';
-// import { getCaseDemographics } from '@functions/caseDemographics';
-// import { getLatestNewsItems } from '@functions/latestNewsItems';
+import { getCurrentCase } from '@functions/currentCases';
+import { getVaccineData } from '@functions/vaccineData';
+import { getCaseDemographics } from '@functions/caseDemographics';
+import { getLatestNewsItems } from '@functions/latestNewsItems';
 import { getCookie } from '@utilities/cookieParse';
 import { addCommas, stringifyProperties } from '@utilities/formatValue';
 
@@ -17,7 +17,7 @@ import { formatHospital, formatSummary, formatVaccinations } from '@utilities/fo
 export default function Home(props: PropsWithChildren<PageProps>) {
     const summary = formatSummary(props.currentCases);
     const vaccinated = formatVaccinations(props.vaccineData);
-    const hospital = formatHospital(props.caseDemographics.hospital, props.latestNewsItems);
+    const hospital = formatHospital(props.caseDemographics.hospital, props.currentCases.summary);
 
     return <SectionGrid>
         <SectionItem title="Summary">
@@ -35,10 +35,10 @@ export default function Home(props: PropsWithChildren<PageProps>) {
                 ]}
                 cells={[
                     stringifyProperties({
-                        c: props.currentCases.summary.newCases,
-                        r: props.currentCases.summary.newReinfections,
-                        a: props.currentCases.summary.activeCases,
-                        t: props.currentCases.summary.allTimeCases,
+                        c: props.currentCases.current.newCases,
+                        r: props.currentCases.current.newReinfections,
+                        a: props.currentCases.details.totalChange,
+                        t: props.currentCases.current.allTimeCases,
                     }),
                 ]}
             />
@@ -84,10 +84,9 @@ export default function Home(props: PropsWithChildren<PageProps>) {
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     const theme = req.headers.cookie ? getCookie(req.headers.cookie, 'theme') || 'light' : 'light';
-    return { props: { theme } };
-    // const currentCases = await getCurrentCase();
-    // const caseDemographics = await getCaseDemographics();
-    // const vaccineData = await getVaccineData();
-    // const latestNewsItems = await getLatestNewsItems();
-    // return { props: { theme, currentCases, caseDemographics, vaccineData, latestNewsItems } };
+    const currentCases = await getCurrentCase();
+    const caseDemographics = await getCaseDemographics();
+    const vaccineData = await getVaccineData();
+    const latestNewsItems = await getLatestNewsItems();
+    return { props: { theme, currentCases, caseDemographics, vaccineData, latestNewsItems } };
 };
