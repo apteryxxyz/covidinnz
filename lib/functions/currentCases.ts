@@ -10,10 +10,10 @@ import * as cheerio from 'cheerio';
 const SourceUrl =
     'https://www.health.govt.nz/covid-19-novel-coronavirus/' +
     'covid-19-data-and-statistics/covid-19-current-cases';
-    const DateRegex = /Last updated (\d)(am|pm) (\d{1,2}) ([a-z]{3,9}) (\d{4})/i;
-    const CachePath = resolve('public/cache/currentCases.json');
-    
-    export interface CurrentCases {
+const DateRegex = /Last updated (\d)(am|pm) (\d{1,2}) ([a-z]{3,9}) (\d{4})/i;
+const CachePath = resolve('public/cache/currentCases.json');
+
+export interface CurrentCases {
     updatedAt: number;
     checkedAt: number;
     summary: ReturnType<typeof makeSummary>;
@@ -42,17 +42,17 @@ export async function getCurrentCase() {
     const deaths = makeDeaths(tables[2].map(Object.values));
     const details = makeDetails(tables[3].map(Object.values).flat());
     const locations = makeLocations(tables[5].map(Object.values));
-    
-    const json = { updatedAt, checkedAt, summary, current,  outcomes, deaths, details, locations };
+
+    const json = { updatedAt, checkedAt, summary, current, outcomes, deaths, details, locations };
     return saveJson<CurrentCases>(CachePath, json);
 }
 
-const clean = (s?: string) => s? Number(s?.replace(/\*|,|%/g, '')) ?? 0 : 0;
+const clean = (s?: string) => s ? Number(s?.replace(/\*|,|%/g, '')) ?? 0 : 0;
 
-const CasesRegex = /New cases per day\*? ([0-9,]+)/i;
-const RATRegex = /RATs uploaded per day\*? ([0-9,]+)/i;
-const HospitalRegex = /Cases in hospital as at midnight Sunday ([0-9,]+)/i;
-const IcuRegex = /Cases in ICU as at midnight Sunday ([0-9,]+)/i;
+const CasesRegex = /New case average\*? ([0-9,]+)/i;
+const RATRegex = /RATs uploaded average\*? ([0-9,]+)/i;
+const HospitalRegex = /Cases in ICU as at midnight (?:[a-z]+) ([0-9,]+)/i;
+const IcuRegex = /Cases in ICU as at midnight (?:[a-z]+) ([0-9,]+)/i;
 const DeathsRegex = /Deaths attributed to COVID\*? ([0-9,]+)/i;
 const TotalDeathsRegex = /Total deaths attributed COVID ([0-9,]+)/i;
 
@@ -60,7 +60,7 @@ function makeSummary(html: string) {
     const $ = cheerio.load(html);
     const content = $('.col-sm-6').text()
         .replaceAll('\n', ' ').replace(/ +/g, ' ').replaceAll(' ', ' ');
-    
+
     return {
         newCasesPerDay: clean(content.match(CasesRegex)?.[1]),
         ratPerDay: clean(content.match(RATRegex)?.[1]),
@@ -70,7 +70,7 @@ function makeSummary(html: string) {
         deathsPerWeek: clean(content.match(TotalDeathsRegex)?.[1]),
 
     }
-} 
+}
 
 function makeCurrent(values: string[]) {
     return {

@@ -5,9 +5,11 @@ import type { PageProps } from '@typings/PageProps';
 export function Header(props: PageProps) {
     const totals = props?.vaccineData?.byEthnicity?.find(e => e.label === 'Total');
     const vaccinated = ((totals?.fiveToEleven?.completed || 0) + (totals?.twelvePlus?.completed || 0)) /
-        ((totals?.fiveToEleven?.population || 0) + (totals?.twelvePlus?.population || 0)) * 100 || 'N/A';
-    const icuCare = props?.currentCases?.summary?.icu || 'N/A';
-    const newCases = props?.currentCases?.summary?.newCasesPerDay || 'N/A';
+        ((totals?.fiveToEleven?.population || 0) + (totals?.twelvePlus?.population || 0)) * 100 ?? 'N/A';
+    const icuCare = props?.currentCases?.summary?.icu ?? 'N/A';
+    const newCases = props?.currentCases?.summary?.newCasesPerDay ?? 'N/A';
+
+    console.log(props);
 
     return <Container
         elementName="header"
