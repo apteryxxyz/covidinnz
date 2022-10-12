@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from 'react';
-import { HiOutlineArrowsExpand, HiLink } from 'react-icons/hi';
+import { HiLink, HiOutlineArrowsExpand } from 'react-icons/hi';
 import { IconButton } from './IconButton';
 
 export interface ItemProps {

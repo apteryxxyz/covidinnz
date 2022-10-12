@@ -7,8 +7,10 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 
-import { PropsWithChildren, useState } from 'react';
-import { BodyClass, BaseTableProps, CellClass, RowClass, HeadClass, SortClass } from './Table';
+import type { PropsWithChildren} from 'react';
+import { useState } from 'react';
+import type { BaseTableProps} from './Table';
+import { BodyClass, CellClass, HeadClass, RowClass, SortClass } from './Table';
 
 export type TopTableProps = BaseTableProps & {
     type: 'top';

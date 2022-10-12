@@ -1,15 +1,17 @@
-import { BarChart, BarChartProps } from './Bar';
+import type { BarChartProps } from './Bar';
+import { BarChart } from './Bar';
 import {
-    Chart as ChartJS,
     ArcElement,
-    Tooltip,
-    Legend,
-    CategoryScale,
-    LinearScale,
     BarElement,
+    CategoryScale,
+    Chart as ChartJS,
+    Legend,
+    LinearScale,
     Title,
+    Tooltip,
 } from 'chart.js';
-import { DoughnutChart, DoughnutChartProps } from './Doughnut';
+import type { DoughnutChartProps } from './Doughnut';
+import { DoughnutChart } from './Doughnut';
 ChartJS.register(ArcElement, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 export interface BaseChartProps {

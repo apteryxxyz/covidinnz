@@ -5,8 +5,10 @@ import Paper from '@mui/material/Paper';
 import TableContainer from '@mui/material/TableContainer';
 
 import type { PropsWithChildren } from 'react';
-import { LeftTable, LeftTableProps } from './Left';
-import { TopTable, TopTableProps } from './Top';
+import type { LeftTableProps } from './Left';
+import { LeftTable } from './Left';
+import type { TopTableProps } from './Top';
+import { TopTable } from './Top';
 
 export const HeadClass = '';
 export const BodyClass = 'dark:!bg-slate-900';

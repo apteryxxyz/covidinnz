@@ -1569,7 +1569,7 @@ __metadata:
     cheerio: ^1.0.0-rc.12
     cross-env: ^7.0.3
     eslint: ^8.23.0
-    eslint-config-apteryx: ^1.0.1
+    eslint-config-apteryx: ^1.0.6
     eslint-config-next: ^12.2.5
     next: ^12.2.5
     postcss: ^8.4.16
@@ -1977,9 +1977,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-apteryx@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "eslint-config-apteryx@npm:1.0.1"
+"eslint-config-apteryx@npm:^1.0.6":
+  version: 1.0.6
+  resolution: "eslint-config-apteryx@npm:1.0.6"
   dependencies:
     "@typescript-eslint/eslint-plugin": ^5.35.1
     "@typescript-eslint/parser": ^5.35.1
@@ -1993,7 +1993,7 @@ __metadata:
       optional: true
     eslint-config-next:
       optional: true
-  checksum: bab843d3dc2ad8eab0ec469b04f1c8689c204f60eab1ad882776fcbf7ca9b8a7e3858ffd23f898a8db88c5502498f61404d6ea243c5e1d1c0994433494deae58
+  checksum: 0bca5630f03f8fea5e7bd4405124f3a24deffa3abf55ba32c8fc5088db203fe83a2f39a3529cfc45a0bf10953297129a8f7894abddd0faa889bd437a7b0c417e
   languageName: node
   linkType: hard
 

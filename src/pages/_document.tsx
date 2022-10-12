@@ -1,4 +1,5 @@
-import { Html, Head, Main, NextScript, DocumentProps } from 'next/document'
+import type { DocumentProps } from 'next/document';
+import { Head, Html, Main, NextScript } from 'next/document'
 
 export default function _Document(props: DocumentProps) {
     const theme = props["__NEXT_DATA__"]["props"]["pageProps"]["theme"];

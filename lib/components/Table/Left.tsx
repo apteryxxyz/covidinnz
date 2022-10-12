@@ -4,7 +4,8 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 
 import type { PropsWithChildren } from 'react';
-import { BodyClass, BaseTableProps, CellClass, RowClass } from './Table';
+import type { BaseTableProps} from './Table';
+import { BodyClass, CellClass, RowClass } from './Table';
 
 export type LeftTableProps = BaseTableProps & { type: 'left' };
 

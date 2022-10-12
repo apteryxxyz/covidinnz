@@ -2,8 +2,9 @@ import Paper from '@mui/material/Paper';
 import Input from '@mui/material/Input';
 import IconButton from '@mui/material/IconButton';
 
-import { useEffect, useCallback, useState, useRef, PropsWithChildren } from 'react';
-import { AiOutlineSearch, AiOutlineDelete } from 'react-icons/ai';
+import type { PropsWithChildren } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { AiOutlineDelete, AiOutlineSearch } from 'react-icons/ai';
 
 export interface SearchBarProps {
     [key: string]: unknown;
